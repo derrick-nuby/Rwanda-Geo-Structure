@@ -1,6 +1,6 @@
 // file location: src/data/Rwanda.ts
 
-import rwandaData from '../Rwanda.json';
+import rwandaData from '../rwanda.json';
 
 // types
 
