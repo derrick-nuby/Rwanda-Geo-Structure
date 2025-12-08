@@ -25,6 +25,28 @@ export interface Sector {
 // data import
 const data: RwandaData = rwandaData;
 
+const cache: {
+  provinces: string[] | null,
+  districts: string[] | null,
+  districtsByProvince: Map<string, string[]>,
+  sectors: string[] | null
+  sectorsByDistrict: Map<string, string[]>,
+  cells: string[] | null,
+  cellsBySector: Map<string, string[]>,
+  villages: string[] | null,
+  villagesByCell: Map<string, string[]>
+} = {
+  provinces: null,
+  districts: null,
+  districtsByProvince: new Map<string, string[]>(),
+  sectors: null,
+  sectorsByDistrict: new Map<string, string[]>(),
+  cells: null,
+  cellsBySector: new Map<string, string[]>(),
+  villages: null,
+  villagesByCell: new Map<string, string[]>(),
+};
+
 // functions
 
 export const getCountry = (): string => {
@@ -32,51 +54,81 @@ export const getCountry = (): string => {
 };
 
 export const getProvinces = (): string[] => {
-  return Object.keys(data.rwanda);
+  if (cache.provinces) return cache.provinces;
+  const res = Object.keys(data.rwanda);
+  cache.provinces = res;
+  return res;
 };
 
 export const getDistricts = (): string[] => {
-  return Object.values(data.rwanda).flatMap(province => Object.keys(province));
+  if (cache.districts) return cache.districts;
+  const res = Object.values(data.rwanda).flatMap(province => Object.keys(province));
+  cache.districts = res;
+  return res;
 };
 
 export const getDistrictsByProvince = (province: string): string[] => {
-  return Object.keys(data.rwanda[province] || {});
+  if (cache.districtsByProvince.has(province)) return cache.districtsByProvince.get(province)!;
+  const res = Object.keys(data.rwanda[province] || {});
+  cache.districtsByProvince.set(province, res);
+  return res;
 };
 
 export const getSectors = (): string[] => {
-  return Object.values(data.rwanda).flatMap(province =>
+  if (cache.sectors) return cache.sectors;
+  const res = Object.values(data.rwanda).flatMap(province =>
     Object.values(province).flatMap(district => Object.keys(district))
   );
+  cache.sectors = res;
+  return res;
 };
 
 export const getSectorsByDistrict = (province: string, district: string): string[] => {
-  return Object.keys(data.rwanda[province]?.[district] || {});
+  const key = `${province}|${district}`;
+  if (cache.sectorsByDistrict.has(key)) return cache.sectorsByDistrict.get(key)!;
+  const res = Object.keys(data.rwanda[province]?.[district] || {});
+  cache.sectorsByDistrict.set(key, res);
+  return res;
 };
 
 export const getCells = (): string[] => {
-  return Object.values(data.rwanda).flatMap(province =>
+  if (cache.cells) return cache.cells;
+  const res = Object.values(data.rwanda).flatMap(province =>
     Object.values(province).flatMap(district =>
       Object.values(district).flatMap(sector => Object.keys(sector))
     )
   );
+  cache.cells = res;
+  return res;
 };
 
 export const getCellsBySector = (province: string, district: string, sector: string): string[] => {
-  return Object.keys(data.rwanda[province]?.[district]?.[sector] || {});
+  const key = `${province}|${district}|${sector}`;
+  if (cache.cellsBySector.has(key)) return cache.cellsBySector.get(key)!;
+  const res = Object.keys(data.rwanda[province]?.[district]?.[sector] || {});
+  cache.cellsBySector.set(key, res);
+  return res;
 };
 
 export const getVillages = (): string[] => {
-  return Object.values(data.rwanda).flatMap(province =>
+  if (cache.villages) return cache.villages;
+  const res = Object.values(data.rwanda).flatMap(province =>
     Object.values(province).flatMap(district =>
       Object.values(district).flatMap(sector =>
         Object.values(sector).flatMap(cell => cell)
       )
     )
   );
+  cache.villages = res;
+  return res;
 };
 
 export const getVillagesByCell = (province: string, district: string, sector: string, cell: string): string[] => {
-  return data.rwanda[province]?.[district]?.[sector]?.[cell] || [];
+  const key = `${province}|${district}|${sector}|${cell}`;
+  if (cache.villagesByCell.has(key)) return cache.villagesByCell.get(key)!;
+  const res = data.rwanda[province]?.[district]?.[sector]?.[cell] || [];
+  cache.villagesByCell.set(key, res);
+  return res;
 };
 
 export const getRandomLocation = () => {
