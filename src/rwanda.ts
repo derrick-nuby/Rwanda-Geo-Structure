@@ -1,6 +1,7 @@
 // file location: src/data/Rwanda.ts
 
 import rwandaData from '../rwanda.json';
+import v8 from "v8";
 
 // types
 
@@ -25,6 +26,7 @@ export interface Sector {
 // data import
 const data: RwandaData = rwandaData;
 
+// caching
 const cache: {
   provinces: string[] | null,
   districts: string[] | null,
@@ -45,6 +47,28 @@ const cache: {
   cellsBySector: new Map<string, string[]>(),
   villages: null,
   villagesByCell: new Map<string, string[]>(),
+};
+
+/**
+ * Returns the size of the cache in bytes
+ */
+export const getCacheSize = (): number => {
+  return v8.serialize(cache).length;
+}
+
+/**
+ * Clears the cache
+ */
+export const clearCache = (): void => {
+  cache.provinces = null;
+  cache.districts = null;
+  cache.districtsByProvince = new Map<string, string[]>();
+  cache.sectors = null;
+  cache.sectorsByDistrict = new Map<string, string[]>();
+  cache.cells = null;
+  cache.cellsBySector = new Map<string, string[]>();
+  cache.villages = null;
+  cache.villagesByCell = new Map<string, string[]>();
 };
 
 // functions
