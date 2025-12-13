@@ -53,7 +53,7 @@ const cache: {
  * Returns the size of the cache in bytes
  */
 export const getCacheSize = (): number => {
-  return v8.serialize(cache).length;
+  return new TextEncoder().encode(JSON.stringify(cache)).length;
 }
 
 /**
