@@ -14,9 +14,6 @@ var cache = {
     villages: null,
     villagesByCell: new Map(),
 };
-/**
- * Returns the size of the cache in bytes
- */
 // TODO: find a better way to get the size of the cache
 // Method bellow does not work
 // export const getCacheSize = (): number => {
