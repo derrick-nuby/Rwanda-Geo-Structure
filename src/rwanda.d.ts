@@ -13,9 +13,6 @@ export interface Sector {
     [cell: string]: string[];
 }
 /**
- * Returns the size of the cache in bytes
- */
-/**
  * Clears the cache
  */
 export declare const clearCache: () => void;
