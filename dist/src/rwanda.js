@@ -17,9 +17,11 @@ var cache = {
 /**
  * Returns the size of the cache in bytes
  */
-export var getCacheSize = function () {
-    return new TextEncoder().encode(JSON.stringify(cache)).length;
-};
+// TODO: find a better way to get the size of the cache
+// Method bellow does not work
+// export const getCacheSize = (): number => {
+//   return new TextEncoder().encode(JSON.stringify(cache)).length;
+// }
 /**
  * Clears the cache
  */

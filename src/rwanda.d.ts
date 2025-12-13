@@ -15,7 +15,6 @@ export interface Sector {
 /**
  * Returns the size of the cache in bytes
  */
-export declare const getCacheSize: () => number;
 /**
  * Clears the cache
  */
