@@ -2,6 +2,7 @@
 import rwandaData from '../rwanda.json';
 // data import
 var data = rwandaData;
+// caching
 var cache = {
     provinces: null,
     districts: null,
@@ -12,6 +13,26 @@ var cache = {
     cellsBySector: new Map(),
     villages: null,
     villagesByCell: new Map(),
+};
+/**
+ * Returns the size of the cache in bytes
+ */
+export var getCacheSize = function () {
+    return new TextEncoder().encode(JSON.stringify(cache)).length;
+};
+/**
+ * Clears the cache
+ */
+export var clearCache = function () {
+    cache.provinces = null;
+    cache.districts = null;
+    cache.districtsByProvince = new Map();
+    cache.sectors = null;
+    cache.sectorsByDistrict = new Map();
+    cache.cells = null;
+    cache.cellsBySector = new Map();
+    cache.villages = null;
+    cache.villagesByCell = new Map();
 };
 // functions
 export var getCountry = function () {
