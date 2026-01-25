@@ -12,6 +12,10 @@ export interface District {
 export interface Sector {
     [cell: string]: string[];
 }
+/**
+ * Clears the cache
+ */
+export declare const clearCache: () => void;
 export declare const getCountry: () => string;
 export declare const getProvinces: () => string[];
 export declare const getDistricts: () => string[];
