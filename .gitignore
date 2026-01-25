@@ -1,4 +1,28 @@
 node_modules/
 .vscode/
 examples/
+dist/
 coverage/
+
+# Drafts (singular and plural forms)
+draft/
+drafts/
+.draft/
+.drafts/
+*draft
+*drafts
+*.draft
+*.drafts
+
+# AI generated files
+.claude/
+.junie/
+CLAUDE.md
+QWEN.md
+.qwen/
+GEMINI.md
+copilot-instructions.md
+.idea
+.env
+AGENTS.md
+docs/*
